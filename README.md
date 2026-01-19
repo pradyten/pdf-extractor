@@ -28,6 +28,11 @@ Space UI.
 3. Provide a PDF filename that matches a keyword in `TEMPLATE_REGISTRY`
    (example: `resume.pdf`).
 
+## Streamlit UI
+- Run locally with `streamlit run src/streamlit_app.py`.
+- Upload a PDF, preview it, then click Extract to render JSON output.
+- Set `OPENAI_API_KEY` in your environment before running.
+
 ## Hugging Face Space
 This Space is configured to run a Streamlit app on port 8501. Set
 `OPENAI_API_KEY` in Space secrets to enable extraction.
