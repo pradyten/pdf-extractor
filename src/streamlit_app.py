@@ -138,6 +138,20 @@ with left:
     key="pdf_uploader",
     help="File name should include a known keyword (for example: resume, passport, i129).",
   )
+  clear_clicked = st.button(
+    "Clear upload",
+    disabled=uploaded_file is None and st.session_state.pdf_bytes is None,
+  )
+  if clear_clicked:
+    st.session_state.pdf_bytes = None
+    st.session_state.pdf_filename = None
+    st.session_state.pdf_digest = None
+    st.session_state.extract_result = None
+    st.session_state.extract_error = None
+    st.session_state.extract_digest = None
+    st.session_state.extract_filename = None
+    st.session_state.pdf_uploader = None
+    st.rerun()
 
   if uploaded_file is None:
     st.info("Upload a PDF to preview it here.")
