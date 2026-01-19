@@ -1,11 +1,10 @@
-import base64
 import hashlib
 import json
 import os
 import sys
 
 import streamlit as st
-import streamlit.components.v1 as components
+import pypdfium2 as pdfium
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT_DIR not in sys.path:
@@ -86,22 +85,34 @@ st.markdown(
 
 
 def _render_pdf_preview(pdf_bytes: bytes) -> None:
-  encoded = base64.b64encode(pdf_bytes).decode("utf-8")
-  pdf_html = f"""
-  <iframe
-    src="data:application/pdf;base64,{encoded}"
-    width="100%"
-    height="540"
-    style="border: none; border-radius: 14px;"
-  ></iframe>
-  """
-  components.html(pdf_html, height=560)
+  pdf = None
+  try:
+    pdf = pdfium.PdfDocument(pdf_bytes)
+    if len(pdf) < 1:
+      st.info("No pages found in this PDF.")
+      return
+    page = pdf[0]
+    pil_image = page.render(scale=2.0).to_pil()
+    st.image(pil_image, caption="Preview (page 1)", use_column_width=True)
+  except Exception as exc:  # pragma: no cover - UI preview path
+    st.warning(f"Preview unavailable: {exc}")
+  finally:
+    if pdf is not None:
+      pdf.close()
 
 
 def _load_pdf_state(uploaded_file) -> tuple[bytes, str, str]:
   pdf_bytes = uploaded_file.getvalue()
   digest = hashlib.sha256(pdf_bytes).hexdigest()
   return pdf_bytes, uploaded_file.name, digest
+
+
+def _build_download_name(filename: str) -> str:
+  base = os.path.splitext(filename)[0] if filename else "extraction"
+  safe = "".join(ch if ch.isalnum() or ch in ("-", "_") else "_" for ch in base)
+  if not safe:
+    safe = "extraction"
+  return f"{safe}_extracted.json"
 
 
 if "extract_result" not in st.session_state:
@@ -222,7 +233,15 @@ with right:
     st.info("Extraction output will appear here.")
   else:
     st.markdown("#### JSON Output")
-    st.code(
-      json.dumps(st.session_state.extract_result, indent=2, ensure_ascii=False),
-      language="json",
+    json_text = json.dumps(
+      st.session_state.extract_result,
+      indent=2,
+      ensure_ascii=False,
+    )
+    st.code(json_text, language="json")
+    st.download_button(
+      "Download JSON",
+      data=json_text,
+      file_name=_build_download_name(st.session_state.pdf_filename or ""),
+      mime="application/json",
     )
