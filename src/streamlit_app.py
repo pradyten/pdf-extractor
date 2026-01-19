@@ -161,7 +161,6 @@ with left:
     st.session_state.extract_error = None
     st.session_state.extract_digest = None
     st.session_state.extract_filename = None
-    st.session_state.pdf_uploader = None
     st.rerun()
 
   if uploaded_file is None:
