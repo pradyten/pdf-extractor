@@ -32,6 +32,7 @@ Space UI.
 - Run locally with `streamlit run src/streamlit_app.py`.
 - Upload a PDF, preview it, then click Extract to render JSON output.
 - Set `OPENAI_API_KEY` in your environment before running.
+- Space uses `streamlit==1.29.0` for consistent upload behavior.
 
 ## Hugging Face Space
 This Space is configured to run a Streamlit app on port 8501. Set

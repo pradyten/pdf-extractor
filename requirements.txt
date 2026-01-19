@@ -3,4 +3,4 @@ openai
 pandas
 pillow
 pypdfium2
-streamlit
+streamlit==1.29.0
