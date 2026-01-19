@@ -5,6 +5,7 @@
 - `templates/` holds JSON extraction templates referenced by `TEMPLATE_REGISTRY`.
 - `src/streamlit_app.py` is the Hugging Face Space UI entrypoint.
 - `Dockerfile` builds the Space image (Streamlit on port 8501).
+- `.streamlit/config.toml` contains Space-friendly Streamlit server settings.
 - `README.md` includes Space metadata front matter and usage notes.
 - The UI relies on filename keywords to select templates (see `TEMPLATE_REGISTRY`).
 
