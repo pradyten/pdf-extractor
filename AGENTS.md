@@ -1,32 +1,38 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `extractor.py` contains the extraction pipeline: template selection, PDF-to-image rendering, and OpenAI ChatGPT inference calls.
-- `templates/` holds JSON extraction templates referenced by `TEMPLATE_REGISTRY`. Filenames are snake_case and match document types (e.g., `templates/passport.json`).
-- `README.md` is minimal; keep contributor guidance in this file.
-- Add tests under `tests/` when a suite is introduced.
+- `extractor.py` contains PDF rendering, template selection, and OpenAI calls.
+- `templates/` holds JSON extraction templates referenced by `TEMPLATE_REGISTRY`.
+- `src/streamlit_app.py` is the Hugging Face Space UI entrypoint.
+- `Dockerfile` builds the Space image (Streamlit on port 8501).
+- `README.md` includes Space metadata front matter and usage notes.
 
 ## Build, Test, and Development Commands
 - Install dependencies with `python -m pip install -r requirements.txt`.
-- There is no build step; this module is imported and called from other code. A quick import check:
-  - `python -c "import extractor; print(extractor.DEFAULT_MODEL)"`
-- Local CLI usage prompts for a PDF path and prints JSON:
+- Local CLI extraction prompts for a PDF path and prints JSON:
   - `python extractor.py`
- - PDF rendering requires Pillow (installed via `requirements.txt`).
+- Run the Space UI locally:
+  - `streamlit run src/streamlit_app.py`
+- Quick import sanity check:
+  - `python -c "import extractor; print(extractor.DEFAULT_MODEL)"`
 
 ## Coding Style & Naming Conventions
-- Follow the existing 2-space indentation in `extractor.py`.
+- Keep 2-space indentation in `extractor.py`.
 - Use snake_case for functions/variables, UPPER_SNAKE for constants, and add type hints for new functions.
-- Template JSON keys and filenames should stay consistent with the document type; register new templates in `TEMPLATE_REGISTRY` using lowercase filename keywords.
+- Template JSON filenames should be snake_case and registered via lowercase filename keywords in `TEMPLATE_REGISTRY`.
 
 ## Testing Guidelines
-- No automated test suite exists yet. If adding tests, use `pytest` and place them under `tests/` (e.g., `tests/test_extractor.py`).
-- Run tests with `python -m pytest` and validate JSON output matches the exact template schema.
+- No automated test suite exists yet. If adding tests, use `pytest` under `tests/`.
+- Validate that model output matches the exact template schema and that filename keywords map to the right template.
 
 ## Commit & Pull Request Guidelines
-- Git history only includes "Initial commit," so no convention is established. Use short, imperative subjects (e.g., "Add marriage certificate template").
-- PRs should describe the document type, list template file names touched, include an example filename keyword, and call out any required env vars or API access changes.
+- No established commit convention; use short, imperative subjects.
+- PRs should include the document type, template files touched, example filename keyword, and any config/env changes.
 
 ## Security & Configuration Tips
-- OpenAI access is required. Set `OPENAI_API_KEY`; optionally override `EXTRACTOR_MODEL_ALIAS`.
-- Do not commit PDFs, credentials, or output containing sensitive data.
+- Set `OPENAI_API_KEY` for local runs and the Space; optionally override `EXTRACTOR_MODEL_ALIAS`.
+- Avoid committing sensitive PDFs or output data; use redacted samples for demos.
+
+## Automation
+- `.github/workflows/sync-hf.yml` pushes `main` to the HF Space on each commit using `HF_TOKEN`.
+- Treat GitHub as the source of truth; direct edits on HF may be overwritten.
