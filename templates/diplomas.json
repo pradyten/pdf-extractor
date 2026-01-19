@@ -1,0 +1,51 @@
+{
+  "diploma": {
+    "institution_information": {
+      "institution_name": "",
+      "school_or_college_name": "",
+      "campus": "",
+      "address": {
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state": "",
+        "zip_code": "",
+        "country": ""
+      },
+      "telephone_number": "",
+      "email": "",
+      "website": ""
+    },
+    "student_information": {
+      "full_name": "",
+      "first_name": "",
+      "last_name": "",
+      "date_of_birth (MM/DD/YY)": "",
+      "student_id": ""
+    },
+    "diploma_details": {
+      "has_signature": "",
+      "has_official_seal": "",
+      "issue_date (MM/DD/YY)": "",
+      "degree_type": "",               
+      "major": "",
+      "minor": "",
+      "concentration": "",
+      "honors": "",                  
+      "program_length": ""             
+    },
+    "signatories": [
+      {
+        "name": "",
+        "title": "",
+        "signature_date (MM/DD/YY)": ""
+      }
+    ],
+    "document_metadata": {
+      "diploma_number": "",
+      "serial_number": "",
+      "language": "",
+      "format": ""                     
+    }
+  }
+}

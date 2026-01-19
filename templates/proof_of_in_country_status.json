@@ -1,0 +1,69 @@
+{"I-20": 
+    {
+      "sevis_id": "",
+      "student_info": {
+        "surname_primary_name": "",
+        "given_name": "",
+        "preferred_name": "",
+        "passport_name": "",
+        "country_of_birth": "",
+        "country_of_citizenship": "",
+        "city_of_birth": "",
+        "date_of_birth (MM/DD/YY)": "",
+        "class_of_admission": ""
+      },
+      "school_information": {
+        "school_name": "",
+        "school_address": "",
+        "school_official_to_contact_upon_arrival": "",
+        "school_code_and_approval_date (MM/DD/YY)": "",
+        "admission_number": ""
+      },
+      "program_of_study": {
+        "education_level": "",
+        "major_1": "",
+        "major_2": "",
+        "program_english_proficiency": "",
+        "english_proficiency_notes": "",
+        "earliest_admission_date (MM/DD/YY)": "",
+        "start_of_classes (MM/DD/YY)": "",
+        "program_start_end_date (MM/DD/YY)": "",
+        "form_issue_reason": ""
+      },
+      "financials": {
+        "estimated_average_costs_9_months": {
+          "tuition_and_fees": "",
+          "living_expenses": "",
+          "expenses_of_dependents": "",
+          "books_health_insurance": "",
+          "total": ""
+        },
+        "students_funding_9_months": {
+          "personal_funds": "",
+          "funds_from_this_school": "",
+          "abroad_family_member": "",
+          "on_campus_employment": "",
+          "total": ""
+        }
+      },
+      "school_attestation": {
+        "signature_of": "",
+        "date_issued (MM/DD/YY)": "",
+        "place_issued": ""
+      },
+      "student_attestation": {
+        "signature_of": "",
+        "date (MM/DD/YY)": ""
+      },
+      "employment_authorizations": {
+        "current_session_start_date (MM/DD/YY)": "",
+        "current_session_end_date (MM/DD/YY)": ""
+      },
+      "travel_endorsement": {
+        "designated_school_official": "",
+        "title": "",
+        "date_issued (MM/DD/YY)": "",
+        "place_issued": ""
+      }
+    }
+}

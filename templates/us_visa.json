@@ -1,0 +1,21 @@
+{
+"us_visa": 
+{
+    "number": "",
+    "control_number": "",
+    "type": "",
+    "class": "",
+    "entries": "",
+    "issue_date (MM/DD/YY)": "",
+    "expiration_date (MM/DD/YY)": "",
+    "issuing_post": "",
+    "applicant_info": {
+      "surname": "",
+      "given_names": "",
+      "date_of_birth (MM/DD/YY)": "",
+      "nationality_country_name": "",
+      "sex (Fullform)": "",
+      "passport_number": ""
+    }
+}
+}

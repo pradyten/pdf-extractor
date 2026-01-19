@@ -1,0 +1,20 @@
+{
+    "passport": {
+        "number": "",
+        "type": "",
+        "country_code" : "",
+        "surname": "",
+        "given_name": "",
+        "nationality": "",
+        "citizenship_country_name": "",
+        "date_of_birth (MM/DD/YY)": "",
+        "citizenship_number": "",
+        "sex (Fullform)": "",
+        "province_of_birth": "",
+        "country_of_birth": "",
+        "issue_date (MM/DD/YY)": "",
+        "expiration_date (MM/DD/YY)": "",
+        "issuing_country_name": "",
+        "fathers_name": ""
+    }
+}

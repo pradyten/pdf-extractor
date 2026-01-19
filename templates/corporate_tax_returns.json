@@ -1,0 +1,31 @@
+{
+    "legal_business_name": "",
+    "trade_name_dba": "",
+    "contact_person": {
+        "first_name": "",
+        "last_name": "",
+        "title": ""
+    },
+    "business_address": {
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state": "",
+        "zip_code": ""
+    },
+    "telephone_number": "",
+    "naics_code": "",
+    "type_of_business": "",
+    "federal_employer_identification_number": "",
+    "gross_annual_income": "",
+    "net_annual_income": "",
+    "company_signatories": [
+        {
+            "name": "",
+            "title": "",
+            "signature_date (MM/DD/YY)": ""
+        }
+    ],
+    "tax_year": "",
+    "form_type": ""
+}

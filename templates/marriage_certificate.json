@@ -1,0 +1,70 @@
+{
+"marriage_certificate": 
+{
+    "certificate_number": "",
+    "registration_number": "",
+    "issue_date (MM/DD/YY)": "",
+    "issuing_authority": "",
+    "issuing_jurisdiction": {
+      "city": "",
+      "county": "",
+      "state": "",
+      "country": ""
+    },
+    "marriage_date (MM/DD/YY)": "",
+    "marriage_location": {
+      "venue_name": "",
+      "city": "",
+      "county": "",
+      "state": "",
+      "country": ""
+    },
+    "Bride": {
+      "first_name": "",
+      "last_name": "",
+      "date_of_birth (MM/DD/YY)": "",
+      "place_of_birth": {
+        "city": "",
+        "state": "",
+        "country": ""
+      },
+      "residence": {
+        "city": "",
+        "state": "",
+        "country": ""
+      },
+      "father_name": "",
+      "mother_name": ""
+    },
+    "spouse_2": {
+      "first_name": "",
+      "last_name": "",
+      "date_of_birth (MM/DD/YY)": "",
+      "place_of_birth": {
+        "city": "",
+        "state": "",
+        "country": ""
+      },
+      "residence": {
+        "city": "",
+        "state": "",
+        "country": ""
+      },
+      "father_name": "",
+      "mother_name": ""
+    },
+    "officiant_info": {
+      "name": "",
+      "title": "",
+      "organization": ""
+    },
+    "witness_1": {
+      "name": "",
+      "address": ""
+    },
+    "witness_2": {
+      "name": "",
+      "address": ""
+    }
+  }
+}

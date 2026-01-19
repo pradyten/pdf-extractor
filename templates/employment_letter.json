@@ -1,0 +1,66 @@
+{
+  "employment_letter": {
+    "letter_type": "",             
+    "letter_date (MM/DD/YY)": "",              
+    "employee_information": {
+      "full_name": "",
+      "first_name": "",
+      "last_name": "",
+      "date_of_birth (MM/DD/YY)": "",
+      "employee_id": "",
+      "job_title": "",
+      "department": ""
+    },
+    "employment_details": {
+      "employment_status": "",      
+      "employment_start_date (MM/DD/YY)": "",
+      "employment_end_date (MM/DD/YY)": "",    
+      "is_currently_employed": "",
+      "work_schedule": "",
+      "hours_per_week": "",
+      "full_time (yes/no)": "",
+      "salary": "",
+      "salary_frequency (year/month/etc.)": "",       
+      "bonus_or_variable_pay": "",
+      "job_duties_summary": ""
+    },
+    "employer_information": {
+      "legal_business_name": "",
+      "trade_name_dba": "",
+      "business_address": {
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state": "",
+        "zip_code": "",
+        "country": ""
+      },
+      "telephone_number": "",
+      "email": "",
+      "website": ""
+    },
+    "supervisor_or_hr_contact": {
+      "name": "",
+      "title": "",
+      "phone_number": "",
+      "email": ""
+    },
+    "work_location": [
+      {
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state": "",
+        "zip_code": "",
+        "is_third_party_location": "",
+        "third_party_name": ""
+      }
+    ],
+    "has_signature": "",
+    "signatory": {
+      "name": "",
+      "title": "",
+      "signature_date (MM/DD/YY)": ""
+    }
+  }
+}

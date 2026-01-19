@@ -1,0 +1,137 @@
+{
+  "resume": {
+    "personal_information": {
+      "full_name": "",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "phone_number": "",
+      "linkedin_url": "",
+      "github_url": "",
+      "website_url": "",
+      "address": {
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state": "",
+        "zip_code": "",
+        "country": ""
+      }
+    },
+    "professional_title": "",
+    "summary": "",
+    "work_experience": [
+      {
+        "job_title": "",
+        "employer_name": "",
+        "employment_type": "",
+        "location_city": "",
+        "location_state": "",
+        "location_country": "",
+        "start_date (MM/DD/YY)": "",
+        "end_date (MM/DD/YY)": "",
+        "is_current_role": "",
+        "description": "",
+        "achievements": [
+          ""
+        ],
+        "technologies_used": [
+          ""
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution_name": "",
+        "degree": "",
+        "field_of_study": "",
+        "start_date (MM/DD/YY)": "",
+        "end_date (MM/DD/YY)": "",
+        "is_current_program": "",
+        "gpa": "",
+        "location_city": "",
+        "location_state": "",
+        "location_country": ""
+      }
+    ],
+    "skills": {
+      "technical_skills": [
+        ""
+      ],
+      "soft_skills": [
+        ""
+      ],
+      "tools_and_technologies": [
+        ""
+      ],
+      "languages": [
+        {
+          "language": "",
+          "proficiency": ""
+        }
+      ]
+    },
+    "certifications": [
+      {
+        "name": "",
+        "issuer": "",
+        "issue_date (MM/DD/YY)": "",
+        "expiration_date (MM/DD/YY)": "",
+        "credential_id": "",
+        "credential_url": ""
+      }
+    ],
+    "projects": [
+      {
+        "name": "",
+        "role": "",
+        "start_date (MM/DD/YY)": "",
+        "end_date (MM/DD/YY)": "",
+        "is_current_project": "",
+        "description": "",
+        "responsibilities": [
+          ""
+        ],
+        "technologies_used": [
+          ""
+        ],
+        "project_url": ""
+      }
+    ],
+    "publications": [
+      {
+        "title": "",
+        "venue": "",
+        "publication_date (MM/DD/YY)": "",
+        "authors": [
+          ""
+        ],
+        "doi": "",
+        "url": ""
+      }
+    ],
+    "awards": [
+      {
+        "name": "",
+        "issuer": "",
+        "date (MM/DD/YY)": "",
+        "description": ""
+      }
+    ],
+    "professional_memberships": [
+      {
+        "organization": "",
+        "role": "",
+        "start_date (MM/DD/YY)": "",
+        "end_date (MM/DD/YY)": ""
+      }
+    ],
+    "additional_information": {
+      "work_authorization": "",
+      "security_clearance": "",
+      "willing_to_relocate": "",
+      "willing_to_travel": "",
+      "other_notes": ""
+    }
+  }
+}

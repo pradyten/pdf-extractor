@@ -1,0 +1,55 @@
+{
+  "school_transcripts": {
+    "institution_information": {
+      "institution_name": "",
+      "school_or_college_name": "",
+      "campus": "",
+      "address": {
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state": "",
+        "zip_code": "",
+        "country": ""
+      },
+      "telephone_number": "",
+      "email": "",
+      "website": ""
+    },
+    "student_information": {
+      "full_name": "",
+      "first_name": "",
+      "last_name": "",
+      "date_of_birth (MM/DD/YY)": "",
+      "student_id": "",
+      "program_name": "",
+      "degree_type": "",                
+      "major": "",
+      "minor": "",
+      "admission_date (MM/DD/YY)": "",
+      "graduation_date (MM/DD/YY)": "",
+      "is_current_student": ""
+    },
+    "transcript_details": {
+      "issue_date (MM/DD/YY)": "",
+      "has_signature": "",
+      "has_official_seal": "",
+      "is_official_transcript": "",      
+      "grading_scale": "",
+      "overall_gpa": "",
+      "credits_attempted": "",
+      "credits_earned": ""
+    },
+    "remarks": {
+      "academic_standing": "",
+      "honors": "",
+      "warnings_or_probations": "",
+      "other_notes": ""
+    },
+    "signatory": {
+      "name": "",
+      "title": "",
+      "signature_date (MM/DD/YY)": ""
+    }
+  }
+}

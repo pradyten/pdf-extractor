@@ -1,0 +1,224 @@
+{
+  "i129_h1b_petition": {
+    "has_signature": "",
+    "form_edition": "",
+    "petition_type": "H-1B",
+
+    "petitioner_information": {
+      "petitioner_is_individual": "",
+      "individual_petitioner": {
+        "family_name": "",
+        "given_name": "",
+        "middle_name": ""
+      },
+      "company_information": {
+        "company_name": "",
+        "fein": "",
+        "is_nonprofit_or_government_research_org": "",
+        "number_of_employees_in_us": "",
+        "year_established": "",
+        "type_of_business": "",
+        "gross_annual_income": "",
+        "net_annual_income": ""
+      },
+      "mailing_address": {
+        "in_care_of": "",
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state": "",
+        "zip_code": "",
+        "province": "",
+        "postal_code": "",
+        "country": ""
+      },
+      "contact_information": {
+        "daytime_phone": "",
+        "mobile_phone": "",
+        "email": ""
+      }
+    },
+
+    "petition_information": {
+      "requested_classification_symbol": "",
+      "basis_for_classification": "",
+      "most_recent_receipt_number": "",
+      "requested_action": "",
+      "total_workers_in_petition": ""
+    },
+
+    "beneficiary_information": {
+      "type_of_beneficiary": "",
+      "group_name_if_entertainment": "",
+      "full_name": {
+        "family_name": "",
+        "given_name": "",
+        "middle_name": ""
+      },
+      "other_names_used": "",
+      "date_of_birth": "",
+      "sex": "",
+      "country_of_birth": "",
+      "province_of_birth": "",
+      "country_of_citizenship": "",
+      "alien_number": "",
+      "ssn": "",
+      "itin": "",
+      "passport": {
+        "number": "",
+        "country_of_issuance": "",
+        "date_issued": "",
+        "date_expires": ""
+      },
+      "i94_number": "",
+      "date_of_last_arrival": "",
+      "current_us_address": {
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state": "",
+        "zip_code": ""
+      },
+      "current_nonimmigrant_status": "",
+      "status_expiration_date": "",
+      "sevis_number": "",
+      "ead_number": "",
+      "foreign_address": {
+        "street": "",
+        "apt_ste_flr": "",
+        "city": "",
+        "state_province": "",
+        "postal_code": "",
+        "country": ""
+      }
+    },
+
+    "processing_information": {
+      "consulate_or_poe_to_notify": {
+        "type": "",
+        "city": "",
+        "state_or_country": ""
+      },
+      "beneficiary_has_valid_passport": "",
+      "applications_for_dependents_filed": "",
+      "other_petitions_filed": "",
+      "applications_for_replacement_i94": "",
+      "beneficiary_in_removal_proceedings": "",
+      "previous_nonimmigrant_petitions_filed_for_beneficiary": "",
+      "previous_immigrant_petitions_filed": "",
+      "is_new_petition": "",
+      "beneficiary_previously_held_same_classification_last_7_years": "",
+      "beneficiary_denied_same_classification_last_7_years": "",
+      "beneficiary_j1_or_j2_history": "",
+      "j1_j2_status_dates": ""
+    },
+
+    "employment_information": {
+      "job_title": "",
+      "lca_or_ETA_case_number": "",
+      "worksite_addresses": [
+        {
+          "street": "",
+          "apt_ste_flr": "",
+          "city": "",
+          "state": "",
+          "zip_code": "",
+          "is_third_party_location": "",
+          "third_party_name": ""
+        }
+      ],
+      "wages": {
+        "amount": "",
+        "frequency": ""
+      },
+      "other_compensation": "",
+      "employment_dates": {
+        "from": "",
+        "to": ""
+      },
+      "full_time_position": "",
+      "hours_per_week": "",
+      "will_work_in_cnmi": "",
+      "itinerary_included": ""
+    },
+
+    "export_control_certification": {
+      "license_not_required": "",
+      "license_required": ""
+    },
+
+    "h1b_classification_details": {
+      "prior_H_or_L_periods_of_stay": [],
+      "confirmation_number_h1b_registration": "",
+      "passport_used_for_registration": {
+        "number": "",
+        "country_of_issuance": "",
+        "expiration_date": ""
+      },
+      "proposed_duties_description": "",
+      "beneficiary_present_occupation_and_experience": "",
+      "beneficiary_controlling_interest_in_petitioner": "",
+      "controlling_interest_explanation": "",
+      "requesting_change_of_employer_and_was_previous_CNMI_exempt": "",
+      "subject_to_CNMI_cap_exemption": ""
+    },
+
+    "h1b_fee_and_dependency_information": {
+      "petitioner_is_h1b_dependent": "",
+      "petitioner_is_willful_violator": "",
+      "beneficiary_is_exempt_from_attestation": "",
+      "exemption_reason_salary_over_60000": "",
+      "exemption_reason_master_or_higher_degree": "",
+      "petitioner_has_50_or_more_employees": "",
+      "more_than_50_percent_in_H1B_L1_status": "",
+      "beneficiary_highest_education_level": "",
+      "field_of_study": "",
+      "rate_of_pay_per_year": "",
+      "dot_code": "",
+      "naics_code": "",
+      "acwia_fee_applicable": "",
+      "fraud_fee_applicable": "",
+      "public_law_114_113_fee_applicable": ""
+    },
+
+    "numerical_cap_information": {
+      "cap_type": "",
+      "masters_cap_degree_details": {
+        "us_institution_name": "",
+        "degree_type": "",
+        "date_awarded": "",
+        "institution_address": ""
+      },
+      "reason_for_cap_exemption": ""
+    },
+
+    "offsite_assignment_information": {
+      "assigned_offsite": "",
+      "complies_with_offsite_h1b_requirements": "",
+      "paid_actual_or_prevailing_wage_at_offsite": ""
+    },
+
+    "signatory_information": {
+      "authorized_signatory_name": "",
+      "title": "",
+      "signature_date": "",
+      "daytime_phone": "",
+      "email": ""
+    },
+
+    "preparer_information": {
+      "prepared_by_someone_else": "",
+      "preparer_name": "",
+      "preparer_business_name": "",
+      "preparer_address": "",
+      "preparer_contact": {
+        "daytime_phone": "",
+        "fax": "",
+        "email": ""
+      },
+      "preparer_signature_date": ""
+    },
+
+    "additional_information": ""
+  }
+}

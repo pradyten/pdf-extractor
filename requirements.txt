@@ -1,0 +1,6 @@
+altair
+openai
+pandas
+pillow
+pypdfium2
+streamlit
