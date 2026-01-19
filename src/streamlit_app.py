@@ -112,6 +112,12 @@ if "extract_digest" not in st.session_state:
   st.session_state.extract_digest = None
 if "extract_filename" not in st.session_state:
   st.session_state.extract_filename = None
+if "pdf_bytes" not in st.session_state:
+  st.session_state.pdf_bytes = None
+if "pdf_filename" not in st.session_state:
+  st.session_state.pdf_filename = None
+if "pdf_digest" not in st.session_state:
+  st.session_state.pdf_digest = None
 
 
 st.markdown("## PDF Extractor")
@@ -127,7 +133,9 @@ with left:
   uploaded_file = st.file_uploader(
     "Upload a PDF",
     type=["pdf"],
+    accept_multiple_files=False,
     label_visibility="collapsed",
+    key="pdf_uploader",
     help="File name should include a known keyword (for example: resume, passport, i129).",
   )
 
@@ -135,14 +143,17 @@ with left:
     st.info("Upload a PDF to preview it here.")
   else:
     pdf_bytes, filename, digest = _load_pdf_state(uploaded_file)
-    if st.session_state.extract_digest != digest:
+    if st.session_state.pdf_digest != digest:
+      st.session_state.pdf_bytes = pdf_bytes
+      st.session_state.pdf_filename = filename
+      st.session_state.pdf_digest = digest
       st.session_state.extract_result = None
       st.session_state.extract_error = None
       st.session_state.extract_digest = digest
       st.session_state.extract_filename = filename
 
-    st.markdown(f"**File:** `{filename}`")
-    _render_pdf_preview(pdf_bytes)
+    st.markdown(f"**File:** `{st.session_state.pdf_filename}`")
+    _render_pdf_preview(st.session_state.pdf_bytes)
 
   st.markdown("#### Notes")
   st.caption(
@@ -160,27 +171,35 @@ with right:
     help="Choose a model or use default (EXTRACTOR_MODEL_ALIAS).",
   )
 
-  if not os.getenv("OPENAI_API_KEY"):
+  has_api_key = bool(os.getenv("OPENAI_API_KEY"))
+  if not has_api_key:
     st.warning("OPENAI_API_KEY is not set. Add it to your environment or Space secrets.")
 
-  extract_clicked = st.button("Extract", use_container_width=False)
+  extract_clicked = st.button(
+    "Extract",
+    use_container_width=False,
+    disabled=st.session_state.pdf_bytes is None or not has_api_key,
+  )
 
   if extract_clicked:
-    if uploaded_file is None:
-      st.session_state.extract_error = "Please upload a PDF first."
-    else:
-      with st.spinner("Extracting structured JSON..."):
-        try:
-          result = extract_using_openai_from_pdf_bytes(
-            pdf_bytes,
-            filename,
-            model=model_choice,
+    with st.spinner("Extracting structured JSON..."):
+      try:
+        result = extract_using_openai_from_pdf_bytes(
+          st.session_state.pdf_bytes,
+          st.session_state.pdf_filename,
+          model=model_choice,
+        )
+        st.session_state.extract_result = result
+        st.session_state.extract_error = None
+      except Exception as exc:  # pragma: no cover - runtime error path
+        message = str(exc)
+        if "403" in message or "PermissionDenied" in message:
+          message = (
+            "OpenAI request was rejected (403). "
+            "Check OPENAI_API_KEY, model access, and billing."
           )
-          st.session_state.extract_result = result
-          st.session_state.extract_error = None
-        except Exception as exc:  # pragma: no cover - runtime error path
-          st.session_state.extract_error = str(exc)
-          st.session_state.extract_result = None
+        st.session_state.extract_error = message
+        st.session_state.extract_result = None
 
   if st.session_state.extract_error:
     st.error(st.session_state.extract_error)
