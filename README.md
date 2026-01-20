@@ -35,7 +35,7 @@ Space UI.
 - Space uses `streamlit==1.29.0` for consistent upload behavior.
 
 ## Samples and Supported Documents
-- Sample files live in `sample/` (passport and visa) for quick testing.
+- Sample documents are embedded in the app for quick testing (passport and visa).
 - Supported document types (based on templates):
   - USCIS Form I-129 H-1B Petition
   - Form I-94 Arrival/Departure Record

@@ -13,6 +13,7 @@ if ROOT_DIR not in sys.path:
   sys.path.insert(0, ROOT_DIR)
 
 from extractor import extract_using_openai_from_pdf_bytes, TEMPLATE_REGISTRY
+from sample_data import SAMPLE_LABELS, get_sample
 
 
 st.set_page_config(page_title="PDF Extractor", layout="wide")
@@ -119,10 +120,11 @@ def _ensure_pdf_bytes(raw_bytes: bytes, filename: str) -> bytes:
   return buffer.getvalue()
 
 
-def _load_sample_state(sample_path: str) -> tuple[bytes, str, str]:
-  with open(sample_path, "rb") as fh:
-    raw_bytes = fh.read()
-  filename = os.path.basename(sample_path)
+def _load_sample_state(sample_label: str) -> tuple[bytes, str, str]:
+  sample = get_sample(sample_label)
+  if sample is None:
+    raise FileNotFoundError("Sample data not found.")
+  raw_bytes, filename = sample
   pdf_bytes = _ensure_pdf_bytes(raw_bytes, filename)
   digest = hashlib.sha256(pdf_bytes).hexdigest()
   return pdf_bytes, filename, digest
@@ -198,17 +200,14 @@ with left:
   uploaded_file = None
 
   if input_mode == "Use sample":
+    sample_options = ["Choose a sample..."] + SAMPLE_LABELS
     sample_choice = st.selectbox(
       "Choose a sample",
-      ["Choose a sample...", "Sample Visa", "Sample Passport"],
+      sample_options,
       label_visibility="collapsed",
       key="sample_choice",
     )
-    sample_map = {
-      "Sample Visa": os.path.join(ROOT_DIR, "sample", "sample visa.webp"),
-      "Sample Passport": os.path.join(ROOT_DIR, "sample", "sample passport.webp"),
-    }
-    selected_sample = sample_map.get(sample_choice)
+    selected_sample = sample_choice if sample_choice in SAMPLE_LABELS else None
     if selected_sample is None:
       _reset_pdf_state()
   else:
@@ -222,10 +221,11 @@ with left:
     )
 
   if input_mode == "Use sample" and selected_sample:
-    if not os.path.exists(selected_sample):
-      st.error("Sample file not found. Please check the `sample/` folder.")
-    else:
+    try:
       pdf_bytes, filename, digest = _load_sample_state(selected_sample)
+    except Exception as exc:  # pragma: no cover - sample load path
+      st.error(f"Sample load failed: {exc}")
+    else:
       if st.session_state.pdf_digest != digest:
         st.session_state.pdf_bytes = pdf_bytes
         st.session_state.pdf_filename = filename
