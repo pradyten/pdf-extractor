@@ -8,7 +8,7 @@
 - `.streamlit/config.toml` contains Space-friendly Streamlit server settings.
 - `README.md` includes Space metadata front matter and usage notes.
 - The UI relies on filename keywords to select templates (see `TEMPLATE_REGISTRY`).
-- `sample/` holds optional sample PDFs used by the UI's sample picker.
+- Sample PDFs are fetched from the HF dataset set by `SAMPLE_DATASET_REPO`.
 
 ## Build, Test, and Development Commands
 - Install dependencies with `python -m pip install -r requirements.txt`.

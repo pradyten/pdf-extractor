@@ -35,8 +35,8 @@ Space UI.
 - Space uses `streamlit==1.29.0` for consistent upload behavior.
 
 ## Samples and Supported Documents
-- Place sample PDFs in `sample/` (for example: `sample_visa.pdf`, `sample_passport.pdf`).
-- The Streamlit UI will list any PDFs found there under "Use sample."
+- Sample PDFs are hosted in the Hugging Face dataset `pradyten/pdf-extractor-samples`.
+- The Streamlit UI lists dataset PDFs under "Use sample." Override with `SAMPLE_DATASET_REPO`.
 - Supported document types (based on templates):
   - USCIS Form I-129 H-1B Petition
   - Form I-94 Arrival/Departure Record

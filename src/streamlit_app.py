@@ -5,12 +5,18 @@ import sys
 
 import streamlit as st
 import pypdfium2 as pdfium
+from huggingface_hub import HfApi, hf_hub_download
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT_DIR not in sys.path:
   sys.path.insert(0, ROOT_DIR)
 
 from extractor import extract_using_openai_from_pdf_bytes, TEMPLATE_REGISTRY
+
+SAMPLE_DATASET_REPO = os.getenv(
+  "SAMPLE_DATASET_REPO",
+  "pradyten/pdf-extractor-samples",
+)
 
 
 st.set_page_config(page_title="PDF Extractor", layout="wide")
@@ -107,10 +113,21 @@ def _load_pdf_state(uploaded_file) -> tuple[bytes, str, str]:
   return pdf_bytes, uploaded_file.name, digest
 
 
-def _load_sample_state(sample_path: str) -> tuple[bytes, str, str]:
-  with open(sample_path, "rb") as fh:
+@st.cache_data(show_spinner=False)
+def _list_sample_pdfs(repo_id: str) -> list[str]:
+  api = HfApi()
+  try:
+    files = api.list_repo_files(repo_id=repo_id, repo_type="dataset")
+  except Exception:
+    return []
+  return sorted(name for name in files if name.lower().endswith(".pdf"))
+
+
+@st.cache_data(show_spinner=False)
+def _load_sample_state(repo_id: str, filename: str) -> tuple[bytes, str, str]:
+  path = hf_hub_download(repo_id=repo_id, filename=filename, repo_type="dataset")
+  with open(path, "rb") as fh:
     pdf_bytes = fh.read()
-  filename = os.path.basename(sample_path)
   digest = hashlib.sha256(pdf_bytes).hexdigest()
   return pdf_bytes, filename, digest
 
@@ -142,15 +159,6 @@ def _supported_doc_types() -> list[str]:
   return seen
 
 
-def _list_sample_pdfs(sample_dir: str) -> list[str]:
-  if not os.path.isdir(sample_dir):
-    return []
-  return sorted(
-    name for name in os.listdir(sample_dir)
-    if name.lower().endswith(".pdf")
-  )
-
-
 if "extract_result" not in st.session_state:
   st.session_state.extract_result = None
 if "extract_error" not in st.session_state:
@@ -179,7 +187,6 @@ left, right = st.columns([1, 1], gap="large")
 
 with left:
   st.markdown("### Upload + Preview")
-  sample_dir = os.path.join(ROOT_DIR, "sample")
   input_mode = st.radio(
     "Input source",
     ["Upload PDF", "Use sample"],
@@ -195,9 +202,9 @@ with left:
   uploaded_file = None
 
   if input_mode == "Use sample":
-    sample_files = _list_sample_pdfs(sample_dir)
+    sample_files = _list_sample_pdfs(SAMPLE_DATASET_REPO)
     if not sample_files:
-      st.info("No sample PDFs found in the `sample/` folder yet.")
+      st.info("No sample PDFs found in the sample dataset yet.")
       _reset_pdf_state()
     sample_options = ["Choose a sample..."] + sample_files
     sample_choice = st.selectbox(
@@ -221,8 +228,10 @@ with left:
 
   if input_mode == "Use sample" and selected_sample:
     try:
-      sample_path = os.path.join(sample_dir, selected_sample)
-      pdf_bytes, filename, digest = _load_sample_state(sample_path)
+      pdf_bytes, filename, digest = _load_sample_state(
+        SAMPLE_DATASET_REPO,
+        selected_sample,
+      )
     except Exception as exc:  # pragma: no cover - sample load path
       st.error(f"Sample load failed: {exc}")
     else:
@@ -259,6 +268,7 @@ with left:
     "rename the file to include a supported keyword (for example: "
     "`resume.pdf`, `passport_jane.pdf`, `i129_petition.pdf`)."
   )
+  st.caption(f"Sample dataset: `{SAMPLE_DATASET_REPO}`")
   st.markdown("#### Supported documents")
   st.markdown("\n".join(f"- {doc}" for doc in _supported_doc_types()))
 

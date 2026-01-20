@@ -1,4 +1,5 @@
 altair
+huggingface_hub
 openai
 pandas
 pillow
