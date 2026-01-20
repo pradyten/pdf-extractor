@@ -39,3 +39,4 @@
 ## Automation
 - `.github/workflows/sync-hf.yml` pushes `main` to the HF Space on each commit using `HF_TOKEN`.
 - Treat GitHub as the source of truth; direct edits on HF may be overwritten.
+- The workflow force-pushes a fresh snapshot to avoid blocked legacy binaries in history.
