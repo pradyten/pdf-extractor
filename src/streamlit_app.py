@@ -1,19 +1,16 @@
 import hashlib
-import io
 import json
 import os
 import sys
 
 import streamlit as st
 import pypdfium2 as pdfium
-from PIL import Image
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT_DIR not in sys.path:
   sys.path.insert(0, ROOT_DIR)
 
 from extractor import extract_using_openai_from_pdf_bytes, TEMPLATE_REGISTRY
-from sample_data import SAMPLE_LABELS, get_sample
 
 
 st.set_page_config(page_title="PDF Extractor", layout="wide")
@@ -110,22 +107,10 @@ def _load_pdf_state(uploaded_file) -> tuple[bytes, str, str]:
   return pdf_bytes, uploaded_file.name, digest
 
 
-def _ensure_pdf_bytes(raw_bytes: bytes, filename: str) -> bytes:
-  if filename.lower().endswith(".pdf"):
-    return raw_bytes
-  image = Image.open(io.BytesIO(raw_bytes))
-  rgb = image.convert("RGB")
-  buffer = io.BytesIO()
-  rgb.save(buffer, format="PDF")
-  return buffer.getvalue()
-
-
-def _load_sample_state(sample_label: str) -> tuple[bytes, str, str]:
-  sample = get_sample(sample_label)
-  if sample is None:
-    raise FileNotFoundError("Sample data not found.")
-  raw_bytes, filename = sample
-  pdf_bytes = _ensure_pdf_bytes(raw_bytes, filename)
+def _load_sample_state(sample_path: str) -> tuple[bytes, str, str]:
+  with open(sample_path, "rb") as fh:
+    pdf_bytes = fh.read()
+  filename = os.path.basename(sample_path)
   digest = hashlib.sha256(pdf_bytes).hexdigest()
   return pdf_bytes, filename, digest
 
@@ -157,6 +142,15 @@ def _supported_doc_types() -> list[str]:
   return seen
 
 
+def _list_sample_pdfs(sample_dir: str) -> list[str]:
+  if not os.path.isdir(sample_dir):
+    return []
+  return sorted(
+    name for name in os.listdir(sample_dir)
+    if name.lower().endswith(".pdf")
+  )
+
+
 if "extract_result" not in st.session_state:
   st.session_state.extract_result = None
 if "extract_error" not in st.session_state:
@@ -185,6 +179,7 @@ left, right = st.columns([1, 1], gap="large")
 
 with left:
   st.markdown("### Upload + Preview")
+  sample_dir = os.path.join(ROOT_DIR, "sample")
   input_mode = st.radio(
     "Input source",
     ["Upload PDF", "Use sample"],
@@ -200,14 +195,18 @@ with left:
   uploaded_file = None
 
   if input_mode == "Use sample":
-    sample_options = ["Choose a sample..."] + SAMPLE_LABELS
+    sample_files = _list_sample_pdfs(sample_dir)
+    if not sample_files:
+      st.info("No sample PDFs found in the `sample/` folder yet.")
+      _reset_pdf_state()
+    sample_options = ["Choose a sample..."] + sample_files
     sample_choice = st.selectbox(
       "Choose a sample",
       sample_options,
       label_visibility="collapsed",
       key="sample_choice",
     )
-    selected_sample = sample_choice if sample_choice in SAMPLE_LABELS else None
+    selected_sample = sample_choice if sample_choice in sample_files else None
     if selected_sample is None:
       _reset_pdf_state()
   else:
@@ -222,7 +221,8 @@ with left:
 
   if input_mode == "Use sample" and selected_sample:
     try:
-      pdf_bytes, filename, digest = _load_sample_state(selected_sample)
+      sample_path = os.path.join(sample_dir, selected_sample)
+      pdf_bytes, filename, digest = _load_sample_state(sample_path)
     except Exception as exc:  # pragma: no cover - sample load path
       st.error(f"Sample load failed: {exc}")
     else:
