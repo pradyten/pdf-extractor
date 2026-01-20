@@ -25,6 +25,8 @@ jobs:
           fi
           sync_dir="$(mktemp -d)"
           git ls-files -z | tar --null -T - -cf - | tar -xf - -C "${sync_dir}"
+          find "${sync_dir}" -type f -name "*.pdf" -delete
+          rm -rf "${sync_dir}/sample"
           cd "${sync_dir}"
           git init
           git config user.name "github-actions[bot]"
