@@ -1,16 +1,18 @@
 import hashlib
+import io
 import json
 import os
 import sys
 
 import streamlit as st
 import pypdfium2 as pdfium
+from PIL import Image
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT_DIR not in sys.path:
   sys.path.insert(0, ROOT_DIR)
 
-from extractor import extract_using_openai_from_pdf_bytes
+from extractor import extract_using_openai_from_pdf_bytes, TEMPLATE_REGISTRY
 
 
 st.set_page_config(page_title="PDF Extractor", layout="wide")
@@ -107,12 +109,50 @@ def _load_pdf_state(uploaded_file) -> tuple[bytes, str, str]:
   return pdf_bytes, uploaded_file.name, digest
 
 
+def _ensure_pdf_bytes(raw_bytes: bytes, filename: str) -> bytes:
+  if filename.lower().endswith(".pdf"):
+    return raw_bytes
+  image = Image.open(io.BytesIO(raw_bytes))
+  rgb = image.convert("RGB")
+  buffer = io.BytesIO()
+  rgb.save(buffer, format="PDF")
+  return buffer.getvalue()
+
+
+def _load_sample_state(sample_path: str) -> tuple[bytes, str, str]:
+  with open(sample_path, "rb") as fh:
+    raw_bytes = fh.read()
+  filename = os.path.basename(sample_path)
+  pdf_bytes = _ensure_pdf_bytes(raw_bytes, filename)
+  digest = hashlib.sha256(pdf_bytes).hexdigest()
+  return pdf_bytes, filename, digest
+
+
 def _build_download_name(filename: str) -> str:
   base = os.path.splitext(filename)[0] if filename else "extraction"
   safe = "".join(ch if ch.isalnum() or ch in ("-", "_") else "_" for ch in base)
   if not safe:
     safe = "extraction"
   return f"{safe}_extracted.json"
+
+
+def _reset_pdf_state() -> None:
+  st.session_state.pdf_bytes = None
+  st.session_state.pdf_filename = None
+  st.session_state.pdf_digest = None
+  st.session_state.extract_result = None
+  st.session_state.extract_error = None
+  st.session_state.extract_digest = None
+  st.session_state.extract_filename = None
+
+
+def _supported_doc_types() -> list[str]:
+  seen = []
+  for cfg in TEMPLATE_REGISTRY.values():
+    doc_type = cfg.get("document_type")
+    if doc_type and doc_type not in seen:
+      seen.append(doc_type)
+  return seen
 
 
 if "extract_result" not in st.session_state:
@@ -129,30 +169,75 @@ if "pdf_filename" not in st.session_state:
   st.session_state.pdf_filename = None
 if "pdf_digest" not in st.session_state:
   st.session_state.pdf_digest = None
+if "input_mode_prev" not in st.session_state:
+  st.session_state.input_mode_prev = None
 
 
 st.markdown("## PDF Extractor")
 st.markdown(
-  "Upload a PDF on the left, preview it, then click Extract to generate "
-  "structured JSON on the right."
+  "Choose a sample or upload your own PDF, preview it, then click Extract "
+  "to generate structured JSON on the right."
 )
 
 left, right = st.columns([1, 1], gap="large")
 
 with left:
   st.markdown("### Upload + Preview")
-  uploaded_file = st.file_uploader(
-    "Upload a PDF",
-    type=["pdf"],
-    accept_multiple_files=False,
+  input_mode = st.radio(
+    "Input source",
+    ["Upload PDF", "Use sample"],
+    horizontal=True,
     label_visibility="collapsed",
-    key="pdf_uploader",
-    help="File name should include a known keyword (for example: resume, passport, i129).",
+    key="input_mode",
   )
+  if st.session_state.input_mode_prev != input_mode:
+    _reset_pdf_state()
+    st.session_state.input_mode_prev = input_mode
 
-  if uploaded_file is None:
-    st.info("Upload a PDF to preview it here.")
+  selected_sample = None
+  uploaded_file = None
+
+  if input_mode == "Use sample":
+    sample_choice = st.selectbox(
+      "Choose a sample",
+      ["Choose a sample...", "Sample Visa", "Sample Passport"],
+      label_visibility="collapsed",
+      key="sample_choice",
+    )
+    sample_map = {
+      "Sample Visa": os.path.join(ROOT_DIR, "sample", "sample visa.webp"),
+      "Sample Passport": os.path.join(ROOT_DIR, "sample", "sample passport.webp"),
+    }
+    selected_sample = sample_map.get(sample_choice)
+    if selected_sample is None:
+      _reset_pdf_state()
   else:
+    uploaded_file = st.file_uploader(
+      "Upload a PDF",
+      type=["pdf"],
+      accept_multiple_files=False,
+      label_visibility="collapsed",
+      key="pdf_uploader",
+      help="File name should include a known keyword (for example: resume, passport, i129).",
+    )
+
+  if input_mode == "Use sample" and selected_sample:
+    if not os.path.exists(selected_sample):
+      st.error("Sample file not found. Please check the `sample/` folder.")
+    else:
+      pdf_bytes, filename, digest = _load_sample_state(selected_sample)
+      if st.session_state.pdf_digest != digest:
+        st.session_state.pdf_bytes = pdf_bytes
+        st.session_state.pdf_filename = filename
+        st.session_state.pdf_digest = digest
+        st.session_state.extract_result = None
+        st.session_state.extract_error = None
+        st.session_state.extract_digest = digest
+        st.session_state.extract_filename = filename
+
+      st.markdown(f"**Sample:** `{st.session_state.pdf_filename}`")
+      _render_pdf_preview(st.session_state.pdf_bytes)
+  elif input_mode == "Upload PDF" and uploaded_file is not None:
     pdf_bytes, filename, digest = _load_pdf_state(uploaded_file)
     if st.session_state.pdf_digest != digest:
       st.session_state.pdf_bytes = pdf_bytes
@@ -165,6 +250,8 @@ with left:
 
     st.markdown(f"**File:** `{st.session_state.pdf_filename}`")
     _render_pdf_preview(st.session_state.pdf_bytes)
+  else:
+    st.info("Upload a PDF or choose a sample to preview it here.")
 
   st.markdown("#### Notes")
   st.caption(
@@ -172,6 +259,8 @@ with left:
     "rename the file to include a supported keyword (for example: "
     "`resume.pdf`, `passport_jane.pdf`, `i129_petition.pdf`)."
   )
+  st.markdown("#### Supported documents")
+  st.markdown("\n".join(f"- {doc}" for doc in _supported_doc_types()))
 
 with right:
   st.markdown("### Extract")

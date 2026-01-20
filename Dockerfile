@@ -12,6 +12,7 @@ COPY requirements.txt ./
 COPY src/ ./src/
 COPY .streamlit/ ./.streamlit/
 COPY extractor.py ./
+COPY sample/ ./sample/
 COPY templates/ ./templates/
 
 RUN pip3 install -r requirements.txt
