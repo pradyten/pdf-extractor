@@ -1,56 +1,115 @@
+# PDF-to-JSON Extractor with AI
+
+Intelligent PDF document parser that extracts structured JSON data using OpenAI's GPT models and computer vision.
+
+## 📋 Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Author](#author)
+
+## 🎯 Overview
+
+This application converts PDF documents into structured JSON format using:
+- **OpenAI GPT-4 Vision**: For intelligent content extraction
+- **Template-based extraction**: Customizable JSON schemas for different document types
+- **Streamlit UI**: Interactive web interface for easy PDF processing
+- **Docker support**: Containerized deployment for production environments
+
+Perfect for automating data extraction from resumes, invoices, forms, and other structured documents.
+
+## ✨ Features
+
+- **AI-Powered Extraction**: Uses GPT-4 Vision to understand document structure
+- **Template System**: Pre-configured JSON templates for common document types
+- **Batch Processing**: Handle multiple PDFs efficiently
+- **Image Preview**: Visual confirmation of PDF pages before extraction
+- **Format Validation**: Ensures extracted JSON matches defined schema
+- **Hugging Face Spaces**: Ready for cloud deployment
+
+## 🛠 Technology Stack
+
+- **Python 3.9+** - Primary programming language
+- **OpenAI API** - GPT-4 Vision for intelligent extraction
+- **pypdfium2** - PDF rendering and image conversion
+- **Streamlit** - Interactive web UI framework
+- **Pillow (PIL)** - Image processing
+- **Pandas** - Data manipulation
+
+## 🚀 Installation
+
+### Prerequisites
+- Python 3.9 or higher
+- OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
+
+### Setup
+
+1. Clone the repository:
+\`\`\`bash
+git clone https://github.com/pradyten/pdf-extractor.git
+cd pdf-extractor
+\`\`\`
+
+2. Install dependencies:
+\`\`\`bash
+pip install -r requirements.txt
+\`\`\`
+
+3. Configure OpenAI API key:
+\`\`\`bash
+export OPENAI_API_KEY='your-api-key-here'
+\`\`\`
+
+## 💻 Usage
+
+### Command Line
+\`\`\`bash
+python extractor.py path/to/document.pdf
+\`\`\`
+
+### Streamlit Web UI
+\`\`\`bash
+streamlit run src/streamlit_app.py
+\`\`\`
+
+### Docker
+\`\`\`bash
+docker build -t pdf-extractor .
+docker run -p 8501:8501 -e OPENAI_API_KEY='your-key' pdf-extractor
+\`\`\`
+
+## ⚙️ Configuration
+
+Define custom templates in \`extractor.py\` for different document types (resumes, invoices, forms).
+
+## 🎓 Use Cases
+
+- **HR & Recruitment**: Batch process resume PDFs
+- **Accounting**: Extract invoice data
+- **Data Entry**: Automate form digitization
+- **Document Management**: Convert scanned documents to searchable JSON
+
+## 🔒 Security & Privacy
+
+- Never commit API keys - use environment variables
+- PDFs are processed in-memory, not stored
+- Review OpenAI's data usage policies for compliance
+
+## 👨‍💻 Author
+
+**Pradyumn Tendulkar**
+
+Data Science Graduate Student | ML Engineer
+
+- GitHub: [@pradyten](https://github.com/pradyten)
+- LinkedIn: [Pradyumn Tendulkar](https://www.linkedin.com/in/pradyumn-tendulkar)
+- Email: pktendulkar@wpi.edu
+
 ---
-title: Pdf Extractor
-emoji: 🚀
-colorFrom: red
-colorTo: red
-sdk: docker
-app_port: 8501
-tags:
-- streamlit
-pinned: false
-short_description: pdf_extractor
----
 
-# Pdf Extractor
+⭐ If you found this project helpful, please consider giving it a star!
 
-This repository contains a PDF-to-JSON extractor and (optionally) a Hugging Face
-Space UI.
-
-## What's here
-- `extractor.py` converts PDFs to images, selects a JSON template, and calls
-  OpenAI to extract structured data.
-- `templates/` holds JSON schemas used for extraction.
-- `src/streamlit_app.py` is the Space UI entrypoint (when present).
-
-## Quick start (local)
-1. `python -m pip install -r requirements.txt`
-2. `python extractor.py`
-3. Provide a PDF filename that matches a keyword in `TEMPLATE_REGISTRY`
-   (example: `resume.pdf`).
-
-## Streamlit UI
-- Run locally with `streamlit run src/streamlit_app.py`.
-- Upload a PDF, preview it, then click Extract to render JSON output.
-- Set `OPENAI_API_KEY` in your environment before running.
-- Space uses `streamlit==1.29.0` for consistent upload behavior.
-
-## Samples and Supported Documents
-- Sample PDFs are hosted in the Hugging Face dataset `pradyten/pdf-extractor-samples`.
-- The Streamlit UI lists dataset PDFs under "Use sample." Override with `SAMPLE_DATASET_REPO`.
-- Supported document types (based on templates):
-  - USCIS Form I-129 H-1B Petition
-  - Form I-94 Arrival/Departure Record
-  - Form I-20 Certificate of Eligibility
-  - Passport
-  - US Visa
-  - Academic Transcript
-  - Diploma
-  - Employment Letter
-  - Resume/CV
-  - Corporate Tax Returns
-  - Marriage Certificate
-  - Proof of In-Country Status
-
-## Hugging Face Space
-This Space is configured to run a Streamlit app on port 8501. Set
-`OPENAI_API_KEY` in Space secrets to enable extraction.
+📝 **License:** MIT
