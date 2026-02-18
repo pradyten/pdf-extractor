@@ -1,3 +1,16 @@
+---
+title: Pdf Extractor
+emoji: 🚀
+colorFrom: red
+colorTo: red
+sdk: docker
+app_port: 8501
+tags:
+- streamlit
+pinned: false
+short_description: pdf_extractor
+---
+
 # PDF-to-JSON Extractor with AI
 
 Intelligent PDF document parser that extracts structured JSON data using OpenAI's GPT models and computer vision.
